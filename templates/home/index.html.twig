@@ -1,20 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}
+  home
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/imanebenamar/Desktop/floweremy/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/Users/imanebenamar/Desktop/floweremy/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+{% block content %}
+  <!-- description section -->
+  <section class="firstSection">
+    <div>
+      <h1 class="title">
+        Fleurs,🌻<br />
+        ce dont le monde a besoin
+      </h1>
+      <button class="browseBtn">Naviguer</button>
+    </div>
+    <div class="presentationImg">
+      <img src="{{ asset('images/banner/Rectangle 3.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 4.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 5.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 7.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 26.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 25.png') }}" alt="flower" class="preImage" />
+    </div>
+  </section>
 {% endblock %}

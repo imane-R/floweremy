@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&display=swap");
+
+:root {
+  --secondary-color: #000000;
+  --primary-color: #cf56b8;
+  --third-color: #f1f1f1;
+}
+body {
+  font-family: "Crimson Text" !important;
+}
+.bodyContent {
+  margin: 10%;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none !important;
+  color: var(--secondary-color) !important;
+}
+
+/* header style  *************************/
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+}
+.nav-link {
+  padding: 5px;
+  color: var(--secondary-color);
+}
+.nav-link:hover {
+  color: var(--primary-color);
+}
+a {
+  list-style-type: none;
+  text-decoration: none;
+}
+
+/******************************************************************************/
+/************************************** home page ***********************************************/
+/*****************************************************************************/
+
+/************************************** banner ***********************************************/
+
+.firstSection {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  margin-top: 9%;
+}
+.title {
+  font-size: 52px;
+}
+.browseBtn {
+  color: var(--third-color);
+  background-color: var(--primary-color);
+  font-size: x-large;
+  border: none !important;
+  border-radius: 6px;
+  padding: 19px;
+  margin-top: 15%;
+}
+.presentationImg {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 42%;
+}
+.preImage {
+  padding-bottom: 24px;
+  width: 31%;
+}
+/* Styles for tablet */
+@media (max-width: 768px) and (min-width: 431px) {
+  .title {
+    font-size: 34px;
+  }
+  .preImage {
+    padding-bottom: 9px;
+  }
+}
+/* Styles for mobile */
+@media (max-width: 430px) {
+  .title {
+    font-size: 21px;
+  }
+  .presentationImg {
+    max-width: 50%;
+  }
+  .browseBtn {
+    font-size: medium;
+    padding: 7px;
+  }
+  .preImage {
+    padding-bottom: 9px;
+  }
+  .browseBtn {
+    margin-top: 8%;
+  }
+}
