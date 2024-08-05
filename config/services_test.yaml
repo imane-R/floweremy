@@ -1,0 +1,8 @@
+# config/services_test.yaml
+services:
+    # Désactivez le reCAPTCHA dans l'environnement de test
+    Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator:
+        alias: Karser\Recaptcha3Bundle\Tests\Mock\MockRecaptchaValidator
+
+karser_recaptcha3:
+    enabled: false
