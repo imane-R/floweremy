@@ -3,18 +3,24 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#"><img src="{{ asset('images/logo.png') }}" alt="emyflower logo" class="logo" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="#">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#">Boutique</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">À propos</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
               <ul class="dropdown-menu">
                 <li>
                   <a class="dropdown-item" href="#">Action</a>
@@ -30,14 +36,65 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <li class="nav-item-css nav-item">
+                <a class="nav-link-css nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+              </li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+              <li class="nav-item dropdown">
+                <a class="dropdown-css nav-link-css nav-link" href="#" role="button">Admin</a>
+                <ul class="dropdown-content">
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_add_categorie') }}">Ajout Categorie</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_categories') }}">Gestion Categories</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_add_service') }}">Ajout services</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_services') }}">Gestion services</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_add_produits') }}">Ajout produits</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_produits') }}">Gestion Produis</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_app_register') }}">Ajout un admin</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_app_user') }}">Gestion admin</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('admin_mletpc_update') }}">Gestion Mentions légales | Politiques de confidentialité</a>
+                  </li>
+                </ul>
+              </li>
+            {% endif %}
           </ul>
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
+          <ul class="navbar-nav">
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+              <li class="nav-item-css nav-item">
+                <a class="nav-link-css nav-link" href="{{ path('app_login') }}">Connexion</a>
+              </li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <li class="nav-item-css nav-item">
+                <a class="nav-link-css nav-link" href="#"><i class="fa fa-user icon" aria-hidden="true"></i></a>
+              </li>
+            {% endif %}
+            <li class="nav-item-css nav-item">
+              <a class="nav-link-css nav-link" href="#"><i class="fa fa-shopping-cart icon" aria-hidden="true"></i></a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

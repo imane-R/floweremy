@@ -18,6 +18,9 @@ a {
   text-decoration: none !important;
   color: var(--secondary-color) !important;
 }
+.icon {
+  color: var(--primary-color);
+}
 
 /* header style  *************************/
 
@@ -25,6 +28,9 @@ a {
   display: flex;
   justify-content: space-between;
   margin-top: 26px;
+}
+.logo {
+  width: 31%;
 }
 .nav-link {
   padding: 5px;
@@ -36,6 +42,13 @@ a {
 a {
   list-style-type: none;
   text-decoration: none;
+}
+.navbar-brand {
+  margin-right: -11rem !important;
+}
+.btn-outline-success {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 /******************************************************************************/
@@ -52,6 +65,7 @@ a {
 }
 .title {
   font-size: 52px;
+  text-align: left;
 }
 .browseBtn {
   color: var(--third-color);

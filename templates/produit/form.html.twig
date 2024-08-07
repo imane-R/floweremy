@@ -1,0 +1,17 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Ajout d'un produit
+{% endblock %}
+
+{% block content %}
+  <div class="container mb-10 mt-1">
+    {% if data.url starts with '/add_produits' %}
+      <h1>Ajout d'un produit</h1>
+    {% else %}
+      <h1>Mise à jour d'un produit</h1>
+    {% endif %}
+
+    {{ form(formProduits) }}
+  </div>
+{% endblock %}
