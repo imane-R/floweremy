@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitFormType;
+use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,16 @@ class ProduitController extends AbstractController
         return $this->render("produit/form.html.twig", [
             'formProduits' => $form->createView(),
             'data' => $data
+        ]);
+    }
+    #[Route('/produit/{id}', name: 'app_produit_show')]
+    public function show(Produit $produit, ProduitRepository $produitRepository): Response
+    {
+        // Fetch d'autre produits, excluding the current one
+        $produits = $produitRepository->findBy([], null, 4); // fetch 4 produits
+        return $this->render('produit/show.html.twig', [
+            'produit' => $produit,
+            'produits' => $produits
         ]);
     }
 }

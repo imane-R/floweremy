@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Contactez-nous
+{% endblock %}
+
+{% block content %}
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+  <section class="contact-section">
+    <div class="contact-container">
+      <div class="contact-form">
+        <h2>Contactez nous</h2>
+        {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.tel) }}
+        {{ form_row(form.message) }}
+        {{ form_row(form.send) }}
+        {{ form_end(form) }}
+      </div>
+      <div class="contact-image">
+        <img src="{{ asset('images/contact/Rectangle 49.jpg') }}" alt="Contact image" />
+      </div>
+    </div>
+  </section>
+{% endblock %}

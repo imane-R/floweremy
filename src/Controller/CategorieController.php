@@ -32,4 +32,25 @@ class CategorieController extends AbstractController
             'data' => $data
         ]);
     }
+
+    #[Route('/categorie/{id}', name: 'category_show')]
+    public function show(Categorie $categorie): Response
+    {
+        // Supposons que l'entité Categorie ait une relation OneToMany avec les produits
+        $produits = $categorie->getProduits();
+
+        return $this->render('produit/produit-categoeir.html.twig', [
+            'categorie' => $categorie,
+            'produits' => $produits,
+        ]);
+    }
+    // Méthode dropdown pour le menu des catégories
+    public function dropdown(CategorieRepository $categorieRepository): Response
+    {
+        $categories = $categorieRepository->findAll();
+
+        return $this->render('partials/category_menu.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
 }

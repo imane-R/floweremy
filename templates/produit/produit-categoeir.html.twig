@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-  home
+  {{ categorie.NomCategorie }} - Produits
 {% endblock %}
 
 {% block content %}
@@ -24,9 +24,7 @@
     </div>
   </section>
   <!-- end of banner section -->
-  <!-- product best seler section -->
-  <div class="line-text">Best selers</div>
-  <!-- container for products -->
+  <h1>{{ categorie.NomCategorie }}</h1>
   <div class="flex-container">
     {% for produit in produits %}
       <div class="flex-item">
@@ -41,5 +39,4 @@
       </div>
     {% endfor %}
   </div>
-  <!-- end of product section -->
 {% endblock %}

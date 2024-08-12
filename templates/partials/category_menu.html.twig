@@ -1,0 +1,7 @@
+<ul class="dropdown-menu">
+  {% for categorie in categories %}
+    <li>
+      <a class="dropdown-item" href="{{ path('category_show', { id: categorie.id }) }}">{{ categorie.NomCategorie }}</a>
+    </li>
+  {% endfor %}
+</ul>

@@ -3,38 +3,22 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{{ asset('images/logo.png') }}" alt="emyflower logo" class="logo" /></a>
+        <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{ asset('images/logo.png') }}" alt="emyflower logo" class="logo" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+              <a class="nav-link active" aria-current="page" href=" {{ path('app_home') }} ">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Boutique</a>
+              <a class="nav-link" href="{{ path('contact') }}">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">À propos</a>
+              <a class="nav-link" href="{{ path('app_about') }}">À propos</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="#">Action</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Another action</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-              </ul>
+              {{ render(controller('App\\Controller\\CategorieController::dropdown')) }}
             </li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               <li class="nav-item-css nav-item">
@@ -46,10 +30,10 @@
                 <a class="dropdown-css nav-link-css nav-link" href="#" role="button">Admin</a>
                 <ul class="dropdown-content">
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_add_categorie') }}">Ajout Categorie</a>
+                    <a class="dropdown-item" href="{{ path('add_categorie') }}">Ajout Categorie</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_categories') }}">Gestion Categories</a>
+                    <a class="dropdown-item" href="{{ path('categories') }}">Gestion Categories</a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="{{ path('admin_add_service') }}">Ajout services</a>
@@ -58,7 +42,7 @@
                     <a class="dropdown-item" href="{{ path('admin_services') }}">Gestion services</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_add_produits') }}">Ajout produits</a>
+                    <a class="dropdown-item" href="{{ path('add_produits') }}">Ajout produits</a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="{{ path('admin_produits') }}">Gestion Produis</a>
@@ -92,7 +76,7 @@
               </li>
             {% endif %}
             <li class="nav-item-css nav-item">
-              <a class="nav-link-css nav-link" href="#"><i class="fa fa-shopping-cart icon" aria-hidden="true"></i></a>
+              <a class="nav-link-css nav-link" href="{{ path('app-cart') }}"><i class="fa fa-shopping-cart icon" aria-hidden="true"></i></a>
             </li>
           </ul>
         </div>
