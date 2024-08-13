@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProduitController extends AbstractController
 {
-    #[Route('/produits_add', name: 'add_produits')]
+    #[Route('/admin_produits_add', name: 'add_produits')]
     public function addProduit(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $produits = new Produit;
@@ -55,5 +55,53 @@ class ProduitController extends AbstractController
             'produit' => $produit,
             'produits' => $produits
         ]);
+    }
+    #[Route('/search', name: 'product_search')]
+    public function search(Request $request, ProduitRepository $produitRepository): Response
+    {
+        $query = $request->query->get('q');
+
+        $produits = $produitRepository->createQueryBuilder('p')
+            ->where('p.nom_produit LIKE :query')
+            ->orWhere('p.couleur LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('produit/search_results.html.twig', [
+            'produits' => $produits,
+            'query' => $query
+        ]);
+    }
+
+    #[Route('/admin_produits', name: 'produits')]
+    public function showAll(ProduitRepository $repo)
+    {
+        $produits = $repo->findAll();
+        return $this->render("produit/showAllProduits.html.twig", [
+            'produits' => $produits
+        ]);
+    }
+
+    #[Route('/admin_produits_edit/{id}', name: 'edit_produit')]
+    public function editProduit(Produit $produits, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ProduitFormType::class, $produits);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('produits');
+        }
+        return $this->render("produit/form.html.twig", [
+            'formProduits' => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin_produits_delete/{id}', name: 'delete_produit')]
+    public function deleteProduit(Produit $produits, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($produits);
+        $entityManager->flush();
+        return $this->redirectToRoute('produits');
     }
 }

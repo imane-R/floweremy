@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Résultats de la recherche
+{% endblock %}
+
+{% block content %}
+  <h2 class="recherche-produit">Résultats de la recherche pour "{{ query }}"</h2>
+
+  {% if produits is empty %}
+    <h2 class="recherche-produit">Aucun produit trouvé.</h2>
+  {% else %}
+    <div class="flex-container">
+      {% for produit in produits %}
+        <div class="flex-item">
+          <a href="{{ path('app_produit_show', { id: produit.id }) }}">
+            <img src="{{ asset('images/produits/' ~ produit.image) }}" alt="{{ produit.nomProduit }}" />
+            <h3>{{ produit.nomProduit }}</h3>
+          </a>
+          <div class="prix-button">
+            <p>{{ produit.prix }}$</p>
+            <a href="{{ path('cart_add', { id: produit.id }) }}" class="add-to-cart"><i class="fa fa-shopping-cart icon" aria-hidden="true"></i> Add to cart</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{ asset('images/logo.png') }}" alt="emyflower logo" class="logo" /></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i class="fa-duotone fa-solid fa-bars"></i></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -27,8 +27,8 @@
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
               <li class="nav-item dropdown">
-                <a class="dropdown-css nav-link-css nav-link" href="#" role="button">Admin</a>
-                <ul class="dropdown-content">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+                <ul class="dropdown-menu">
                   <li>
                     <a class="dropdown-item" href="{{ path('add_categorie') }}">Ajout Categorie</a>
                   </li>
@@ -36,32 +36,29 @@
                     <a class="dropdown-item" href="{{ path('categories') }}">Gestion Categories</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_add_service') }}">Ajout services</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ path('admin_services') }}">Gestion services</a>
+                    <a class="dropdown-item" href="#">Gestion de commande</a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="{{ path('add_produits') }}">Ajout produits</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_produits') }}">Gestion Produis</a>
+                    <a class="dropdown-item" href="{{ path('produits') }}">Gestion Produis</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_app_register') }}">Ajout un admin</a>
+                    <a class="dropdown-item" href="{{ path('app_register_gestionnaire') }}">Ajout un gestionniare</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_app_user') }}">Gestion admin</a>
+                    <a class="dropdown-item" href="{{ path('app_gestionnaire') }}">Gestion gestionniare</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('admin_mletpc_update') }}">Gestion Mentions légales | Politiques de confidentialité</a>
+                    <a class="dropdown-item" href="#">Gestion Mentions légales | Politiques de confidentialité</a>
                   </li>
                 </ul>
               </li>
             {% endif %}
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form class="d-flex" role="search" method="get" action="{{ path('product_search') }}">
+            <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <ul class="navbar-nav">
@@ -69,10 +66,13 @@
               <li class="nav-item-css nav-item">
                 <a class="nav-link-css nav-link" href="{{ path('app_login') }}">Connexion</a>
               </li>
+              <li class="nav-item-css nav-item">
+                <a class="nav-link-css nav-link" href="{{ path('app_register') }}">Inscription</a>
+              </li>
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               <li class="nav-item-css nav-item">
-                <a class="nav-link-css nav-link" href="#"><i class="fa fa-user icon" aria-hidden="true"></i></a>
+                <a class="nav-link-css nav-link" href="{{ path('app_profile') }}"><i class="fa fa-user icon" aria-hidden="true"></i></a>
               </li>
             {% endif %}
             <li class="nav-item-css nav-item">
@@ -87,8 +87,68 @@
     {% block content %}
 
     {% endblock %}
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cookiePolicyModal"><i class="fa-solid fa-cookie-bite"></i></button>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="cookiePolicyModal" tabindex="-1" aria-labelledby="cookiePolicyLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cookiePolicyLabel">Politique des Cookies</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer sur notre site, vous acceptez notre politique d'utilisation des cookies. Pour en savoir plus, consultez notre <a class="politiqued-confi" href="#">Politique de confidentialité</a>.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary accepte-cookies" id="acceptCookies">Accepter les cookies</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
-  <footer>
-    <ul class="nav-footer"></ul>
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{ asset('images/logo.png') }}" alt="emyflower logo" class="logo" /></a>
+        <p>Chez FlowerEmy, nous croyons que les fleurs et les plantes ont le pouvoir de transformer un espace, d'élever l'esprit et de célébrer chaque instant de la vie. Que vous recherchiez un bouquet éclatant pour une occasion spéciale ou une plante d'intérieur pour apporter un peu de verdure à votre quotidien, nous sommes là pour répondre à tous vos besoins floraux.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Liens</h3>
+        <ul>
+          <li>
+            <a href="{{ path('app_home') }}">Accueil</a>
+          </li>
+          <li>
+            <a href="{{ path('contact') }}">Contact</a>
+          </li>
+          <li>
+            <a href="{{ path('app_about') }}">À propos</a>
+          </li>
+          <li>
+            <a href="#">Mentions légales</a>
+          </li>
+          <li>
+            <a href="#">Politiques de confidentialité</a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>
+          <i class="fa fa-map-marker" aria-hidden="true"></i> 92100 Avenue Victor Hugo
+        </p>
+        <p>
+          <i class="fa fa-envelope" aria-hidden="true"></i> Emy@Flowers.com
+        </p>
+        <p>
+          <i class="fa fa-phone" aria-hidden="true"></i> 06 68 58 49 61
+        </p>
+      </div>
+    </div>
   </footer>
 {% endblock %}

@@ -56,7 +56,13 @@ a {
   color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
 }
-
+.navbar-toggler {
+  background-color: var(--primary-color) !important;
+  border: 1px solid white !important;
+}
+.fa-bars {
+  color: white !important;
+}
 @media (max-width: 768px) {
   .navbar-brand {
     margin-right: 0 !important;
@@ -474,6 +480,9 @@ h1 {
   .about-content {
     flex: auto;
   }
+  .about-image img {
+    width: fit-content;
+  }
 }
 /************************************** panier style  ***********************************************/
 .cart-container {
@@ -584,4 +593,152 @@ h1 {
   font-size: 18px;
   color: white;
   margin: 0 10px;
+}
+
+/******** profile page ********/
+.profile {
+  text-align: center;
+  margin-top: 3%;
+}
+.profile-content {
+  font-size: 137%;
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+}
+
+/************************************** cockies style  ***********************************************/
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  height: 50px !important;
+  width: 50px !important;
+  border-radius: 50% !important;
+  margin-left: 2%;
+}
+.accepte-cookies {
+  width: fit-content !important;
+  border-radius: 5px !important;
+  height: 40px !important;
+}
+.politiqued-confi {
+  color: var(--primary-color) !important;
+}
+/************************************** footer style  ***********************************************/
+
+.footer {
+  background-color: #565656; /* Couleur de fond */
+  padding: 40px 0;
+  color: white;
+  margin-top: 3%;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.footer-section h2,
+.footer-section h3 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.footer-section p,
+.footer-section ul {
+  margin: 0;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: white !important;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-section p i {
+  margin-right: 10px;
+}
+/************************************** search style  ***********************************************/
+.recherche-produit {
+  margin: 3%;
+  text-align: center;
+}
+
+/************************************** form style  ***********************************************/
+/************************************** forms style  ***********************************************/
+
+#table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#table td,
+#table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#table tr:hover {
+  background-color: #ddd;
+}
+
+#table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: var(--secondary-color);
+  color: white;
+}
+.buttonForm {
+  background-color: var(--primary-color) !important;
+  border: none !important;
+  height: 45px;
+  width: 150px;
+  color: white !important;
+  margin-top: 15px !important;
+}
+.inputForm {
+  height: 40px;
+  width: 477px;
+  margin: 10px;
+  margin: auto;
+}
+label {
+  font-size: 20px;
+}
+.formContainer {
+  display: flex;
+  flex-direction: column;
+}
+.showallImage {
+  width: 23%;
+}
+.imgform {
+  width: 30% !important;
 }
