@@ -1,0 +1,3 @@
+<form action="{{ path('cart_add', { id: produit.id }) }}" method="get" class="add-to-cart-form">
+  <button type="submit" class="add-to-cart" {{ maxQuantity <= 0 ? 'disabled' : '' }}>Add to cart</button>
+</form>

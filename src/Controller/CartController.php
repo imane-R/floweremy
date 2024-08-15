@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,5 +57,15 @@ class CartController extends AbstractController
         $this->cartService->decrease($id); // Implémentez cette méthode dans CartService pour réduire la quantité
 
         return $this->redirectToRoute('app-cart');
+    }
+
+
+    public function addToCartButton(Produit $produit): Response
+    {
+
+        return $this->render('cart/add_to_cart_button.html.twig', [
+            'produit' => $produit,
+            'maxQuantity' => $produit->getStock() - $this->cartService->getQuantity($produit),
+        ]);
     }
 }

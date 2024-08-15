@@ -21,7 +21,7 @@
             </form>
             <span>{{ item.quantity }}</span>
             <form action="{{ path('cart_increase', { id: item.produit.id }) }}" method="post" class="quantity-form">
-              <button type="submit" class="quantity-button">+</button>
+              <button type="submit" class="quantity-button" {{ item.quantity >= item.maxQuantity ? 'disabled' : '' }}>+</button>
             </form>
           </div>
 

@@ -4,8 +4,9 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\RequestStack;
+use App\Entity\Produit;
 use App\Repository\ProduitRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
 {
@@ -58,7 +59,8 @@ class CartService
 
             $cartData[] = [
                 'produit' => $produit,
-                'quantity' => $quantity
+                'quantity' => $quantity,
+                'maxQuantity' => $produit->getStock(),
             ];
         }
 
@@ -89,5 +91,13 @@ class CartService
         }
 
         return $total;
+    }
+
+    public function getQuantity(Produit $produit): int
+    {
+        $session = $this->requestStack->getSession();
+        $cart = $session->get('cart', []);
+
+        return $cart[$produit->getId()] ?? 0;
     }
 }
