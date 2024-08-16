@@ -5,39 +5,33 @@ namespace App\Repository;
 use App\Entity\Commande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
-/**
- * @extends ServiceEntityRepository<Commande>
- */
 class CommandeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Commande::class);
+        $this->entityManager = $entityManager;
     }
 
-    //    /**
-    //     * @return Commande[] Returns an array of Commande objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(Commande $commande, bool $flush = false): void
+    {
+        $this->entityManager->persist($commande);
 
-    //    public function findOneBySomeField($value): ?Commande
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($flush) {
+            $this->entityManager->flush();
+        }
+    }
+
+    public function remove(Commande $commande, bool $flush = false): void
+    {
+        $this->entityManager->remove($commande);
+
+        if ($flush) {
+            $this->entityManager->flush();
+        }
+    }
 }

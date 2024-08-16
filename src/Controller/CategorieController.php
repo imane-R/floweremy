@@ -32,7 +32,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/admin_categorie/{id}', name: 'category_show')]
+    #[Route('/categorie/{id}', name: 'category_show')]
     public function show(Categorie $categorie): Response
     {
         // Supposons que l'entité Categorie ait une relation OneToMany avec les produits

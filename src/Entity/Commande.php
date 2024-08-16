@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
@@ -16,13 +17,11 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $num_bon_commande = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    // $date_reglement can be null
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_reglement = null;
 
     #[ORM\Column]
@@ -35,7 +34,7 @@ class Commande
     private ?\DateTimeInterface $date_livraison = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user_id = null;
 
     /**
@@ -47,7 +46,7 @@ class Commande
     /**
      * @var Collection<int, LigneCommande>
      */
-    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande', cascade: ['persist'])]
     private Collection $ligneCommandes;
 
     public function __construct()
@@ -60,19 +59,6 @@ class Commande
     {
         return $this->id;
     }
-
-    public function getNumBonCommande(): ?int
-    {
-        return $this->num_bon_commande;
-    }
-
-    public function setNumBonCommande(int $num_bon_commande): static
-    {
-        $this->num_bon_commande = $num_bon_commande;
-
-        return $this;
-    }
-
     public function getDateCommande(): ?\DateTimeInterface
     {
         return $this->date_commande;

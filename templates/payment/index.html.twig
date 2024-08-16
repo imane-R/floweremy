@@ -2,7 +2,7 @@
 
 <h1>Paiement</h1>
 
-<form id="payment-form">
+<form id="payment-form" action="{{ url }}">
   <div id="card-element">
     <!-- Un élément Stripe sera inséré ici -->
   </div>
@@ -10,7 +10,7 @@
   <button id="submit">Payer</button>
 </form>
 
-<script src="https://js.stripe.com/v3/"></script>
+{# <script src="https://js.stripe.com/v3/"></script>
 <script>
   const stripe = Stripe('{{ publicKey }}')
   const elements = stripe.elements()
@@ -35,4 +35,4 @@
       alert('Paiement réussi !')
     }
   })
-</script>
+</script> #}

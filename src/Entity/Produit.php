@@ -18,6 +18,9 @@ class Produit
     #[ORM\Column(length: 100)]
     private ?string $nom_produit = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $stripe_id = null;
+
     #[ORM\Column]
     private ?float $prix = null;
 
@@ -73,6 +76,18 @@ class Produit
     public function setNomProduit(string $nom_produit): static
     {
         $this->nom_produit = $nom_produit;
+
+        return $this;
+    }
+
+    public function getStripeId(): ?string
+    {
+        return $this->stripe_id;
+    }
+
+    public function setStripeId(string $stripe_id): static
+    {
+        $this->stripe_id = $stripe_id;
 
         return $this;
     }

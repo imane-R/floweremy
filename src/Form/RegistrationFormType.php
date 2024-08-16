@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
@@ -63,6 +64,15 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Password should include at least one special character.',
                     ]),
                 ],
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Admin' => 'ROLE_ADMIN',
+                    'User' => 'ROLE_USER',
+                    'Gestionnaire' => 'ROLE_GESTIONNAIRE',
+                ],
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3(),

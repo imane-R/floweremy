@@ -21,12 +21,20 @@
     <div class="form-row">
       {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
     </div>
+    {% if is_granted('ROLE_ADMIN') %}
+      <div class="form-row">
+        {{ form_row(registrationForm.roles) }}
+      </div>
+    {% else %} 
     <div class="form-row">
       {{ form_row(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control'}}) }}
     </div>
-    <div class="form-row">
+    {% if is_granted('ROLE_USER') %}
+         <div class="form-row">
       {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
-    </div>
+    </div> 
+    {% endif %}
+    {% endif %}
     <div class="button-wrapper">
       <button type="submit" class="btn buttonForm">Register</button>
     </div>
