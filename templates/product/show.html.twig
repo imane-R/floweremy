@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  {{ product.name }} - Product Details
+{% endblock %}
+
+{% block content %}
+  <!-- product detail section -->
+  <section class="product-detail">
+    <div class="product-detail-container">
+      <div class="product-image">
+        <img src="{{ asset('images/products/' ~ product.image) }}" alt="{{ product.name }}" />
+      </div>
+      <div class="product-info">
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>
+          <strong>{{ product.price }}$ / each</strong>
+        </p>
+        {{ render(controller('App\\Controller\\CartController::addToCartButton', { product: product })) }}
+      </div>
+    </div>
+  </section>
+
+  <!-- other choices section -->
+  <div class="line-text">Other choices</div>
+  <!-- container for products -->
+  <div class="flex-container">
+    {% for product in relatedProducts %}
+      <!-- product section -->
+      {{ render(controller('App\\Controller\\ProductController::tile', { product: product })) }}
+      <!-- end of product section -->
+    {% endfor %}
+  </div>
+  <!-- end of product section -->
+{% endblock %}

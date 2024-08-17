@@ -1,0 +1,14 @@
+{# templates/checkout/confirmation.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Order Confirmation</h1>
+
+        <p>Thank you for your order! Your order number is {{ order.id }}.</p>
+        <p>We will prepare your order for pickup on {{ order.pickUpDate|date('d/m/Y') }} at {{ order.pickUpDate|date('H:i') }}.</p>
+
+        <a href="{{ path('app_home') }}" class="btn btn-primary">Return to Home</a>
+    </div>
+{% endblock %}

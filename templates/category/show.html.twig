@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  {{ category.name }} - Produits
+{% endblock %}
+
+{% block content %}
+  <!-- banner section -->
+  <section class="firstSection">
+    <div>
+      <h1 class="title">
+        Fleurs,🌻<br />
+        ce dont le monde a besoin
+      </h1>
+      <button class="browseBtn">Naviguer</button>
+    </div>
+    <div class="presentationImg">
+      <img src="{{ asset('images/banner/Rectangle 3.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 4.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 5.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 7.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 26.png') }}" alt="flower" class="preImage" />
+      <img src="{{ asset('images/banner/Rectangle 25.png') }}" alt="flower" class="preImage" />
+    </div>
+  </section>
+  <!-- end of banner section -->
+  <h1>{{ category.name }}</h1>
+  <div class="flex-container">
+    {% for product in products %}
+      {{ render(controller('App\\Controller\\ProductController::tile', { product: product })) }}
+    {% endfor %}
+  </div>
+{% endblock %}

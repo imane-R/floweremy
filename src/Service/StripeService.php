@@ -3,10 +3,9 @@
 
 namespace App\Service;
 
-use App\Entity\Commande;
-use App\Entity\Produit;
+use App\Entity\Order;
+use App\Entity\Product;
 use Stripe\StripeClient;
-use Symfony\Bundle\MakerBundle\Str;
 
 class StripeService
 {
@@ -17,17 +16,17 @@ class StripeService
         $this->stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
     }
 
-    public function createPaymentSession(Commande $order, String $successUrl)
+    public function createPaymentSession(Order $order, String $successUrl)
 
     {
 
         // build line items
         $lineItems = [];
-        foreach ($order->getLigneCommandes() as $item) {
-            $stripeProduct = $this->retreiveProduct($item->getProduit()->getStripeId());
+        foreach ($order->getProductLines() as $item) {
+            $stripeProduct = $this->retreiveProduct($item->getProduct()->getStripeId());
             $lineItems[] = [
                 'price' => $stripeProduct->default_price,
-                'quantity' => $item->getQuantite()
+                'quantity' => $item->getQuantity()
             ];
         }
 
@@ -46,13 +45,13 @@ class StripeService
     }
 
 
-    public function createProduct(Produit $produit)
+    public function createProduct(Product $product)
     {
         return $this->stripe->products->create([
-            'name' => $produit->getNomProduit(),
+            'name' => $product->getName(),
             'default_price_data' => [
                 'currency' => $_ENV['SITE_CURRENCY'],
-                'unit_amount_decimal' => $produit->getPrix() * 100
+                'unit_amount_decimal' => $product->getPrice() * 100
             ],
         ]);
     }

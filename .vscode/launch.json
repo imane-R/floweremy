@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,  // Ensure this matches xdebug.client_port in php.ini
+            "pathMappings": {
+                "/Applications/MAMP/htdocs/your_project": "${workspaceFolder}"
+            },
+            "log": true,
+            "ignore": ["**/vendor/**/*.php"]
+        }
+    ]
+}

@@ -10,24 +10,26 @@
   <div class="cart-container">
     {% for item in items %}
       <div class="cart-item">
-        <img src="{{ asset('images/produits/' ~ item.produit.image) }}" alt="{{ item.produit.nomProduit }}" class="cart-item-image" />
+        <img src="{{ asset('images/products/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="cart-item-image" />
         <div class="cart-item-details">
-          <h3>{{ item.produit.nomProduit }}</h3>
-          <p>{{ item.produit.prix }}$ / each</p>
+          <h3>{{ item.product.name }}</h3>
+          <p>{{ item.product.price }} euro / each</p>
 
           <div class="cart-item-quantity">
-            <form action="{{ path('cart_decrease', { id: item.produit.id }) }}" method="post" class="quantity-form">
+            <form action="{{ path('cart_decrease_quantity', { id: item.product.id }) }}" method="post" class="quantity-form">
               <button type="submit" class="quantity-button">-</button>
             </form>
             <span>{{ item.quantity }}</span>
-            <form action="{{ path('cart_increase', { id: item.produit.id }) }}" method="post" class="quantity-form">
+            <form action="{{ path('cart_increase_quantity', { id: item.product.id }) }}" method="post" class="quantity-form">
               <button type="submit" class="quantity-button" {{ item.quantity >= item.maxQuantity ? 'disabled' : '' }}>+</button>
             </form>
           </div>
 
-          <p>Total price: {{ item.produit.prix * item.quantity }}$</p>
+          <p>Total price: {{ item.product.price * item.quantity }}$</p>
         </div>
-        <a href="{{ path('cart_remove', { id: item.produit.id }) }}" class="cart-item-remove">&times;</a>
+        <form action="{{ path('cart_remove_item', { id: item.product.id }) }}" class="cart-item-remove-form action-delete">
+          <button type="submit" class="cart-item-remove" {{ item.quantity >= item.maxQuantity ? 'disabled' : '' }}>&times;</button>
+        </form>
       </div>
     {% endfor %}
   </div>
@@ -36,6 +38,6 @@
     <strong>Total: {{ total }}$</strong>
   </div>
   <div class="cart-buttons">
-    <a href="{{ path('payment') }}" class="cart-buy-button">Buy</a>
+    <a href="{{ path('checkout') }}" class="cart-buy-button">Checkout</a>
   </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Résultats de la recherche
+{% endblock %}
+
+{% block content %}
+  <h2 class="recherche-produit">Résultats de la recherche pour "{{ query }}"</h2>
+
+  {% if products is empty %}
+    <h2 class="recherche-produit">Aucun produit trouvé.</h2>
+  {% else %}
+    <div class="flex-container">
+      {% for product in products %}
+        <!-- product section -->
+        {{ render(controller('App\\Controller\\ProductController::tile', { product: product })) }}
+        <!-- end of product section -->
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

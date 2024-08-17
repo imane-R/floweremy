@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Mon Panier
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Checkout</h1>
+
+        {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.pickUpDate) }}
+                {{ form_widget(form.pickUpDate) }}  {# Renders both date and time inputs together #}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.message) }}
+                {{ form_widget(form.message) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.submit) }}
+            </div>
+
+        {{ form_end(form) }}
+
+        <h2>Order Summary</h2>
+        <ul>
+            {% for item in items %}
+                <li>{{ item.product.name }} - {{ item.quantity }} x {{ item.product.price }}€</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Total: {{ total }}€</strong></p>
+    </div>
+{% endblock %}

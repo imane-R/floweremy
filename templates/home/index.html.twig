@@ -28,17 +28,10 @@
   <div class="line-text">Best selers</div>
   <!-- container for products -->
   <div class="flex-container">
-    {% for produit in produits %}
-      <div class="flex-item">
-        <a href="{{ path('app_produit_show', { id: produit.id }) }}">
-          <img src="{{ asset('images/produits/' ~ produit.image) }}" alt="{{ produit.nomProduit }}" />
-          <h3>{{ produit.nomProduit }}</h3>
-        </a>
-        <div class="prix-button">
-          <p>{{ produit.prix }}$</p>
-          {{ render(controller('App\\Controller\\CartController::addToCartButton', { produit: produit })) }}
-        </div>
-      </div>
+    {% for product in products %}
+      <!-- product section -->
+      {{ render(controller('App\\Controller\\ProductController::tile', { product: product })) }}
+      <!-- end of product section -->
     {% endfor %}
   </div>
   <!-- end of product section -->

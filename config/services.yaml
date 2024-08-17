@@ -2,7 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 parameters:
-  produits_images: "%kernel.project_dir%/public/images/produits"
+  products_images: "%kernel.project_dir%/public/images/products"
 
 services:
   # default configuration for services in *this* file

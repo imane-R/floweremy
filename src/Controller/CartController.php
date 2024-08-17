@@ -1,71 +1,96 @@
 <?php
 // src/Controller/CartController.php
-
 namespace App\Controller;
 
-use App\Entity\Produit;
+use App\Entity\Product;
 use App\Service\CartService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\ProductService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
     private $cartService;
+    private $productService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, ProductService $productService)
     {
         $this->cartService = $cartService;
+        $this->productService = $productService;
     }
 
-    #[Route('/cart', name: 'app-cart')]
+    #[Route('/cart', name: 'cart_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('cart/index.html.twig', [
             'items' => $this->cartService->getFullCart(),
-            'total' => $this->cartService->getTotal(),
+            'total' => $this->cartService->getTotal()
         ]);
     }
 
-    #[Route('/cart/add/{id}', name: 'cart_add')]
-    public function add(int $id): Response
+    #[Route('/cart/items', name: 'cart_add_item', methods: ['POST'])]
+    public function add(Request $request): Response
     {
-        $this->cartService->add($id);
+        $productId = $request->request->get('productId');
+        if ($productId) {
+            $product = $this->productService->findProductById($productId);
+            $currentQuantityInCart = $this->cartService->getQuantity($product);
 
-        return $this->redirectToRoute('app-cart');
+            // Check if the stock is sufficient
+            if ($product->getStock() > $currentQuantityInCart) {
+                $this->cartService->add($productId);
+            } else {
+                // If stock is insufficient, add a flash message
+                $this->addFlash('warning', 'Insufficient stock for ' . $product->getName());
+            }
+        }
+
+        return $this->redirectToRoute('cart_index');
     }
 
-    #[Route('/cart/remove/{id}', name: 'cart_remove')]
+    #[Route('/cart/items/{id}', name: 'cart_remove_item', methods: ['DELETE'])]
     public function remove(int $id): Response
     {
         $this->cartService->remove($id);
 
-        return $this->redirectToRoute('app-cart');
+        // Return a JSON response with success status and redirect URL
+        return $this->json([
+            'success' => true,
+            'redirect_url' => $this->generateUrl('cart_index'),
+        ]);
     }
 
-    #[Route('/cart/increase/{id}', name: 'cart_increase', methods: ['POST'])]
+    #[Route('/cart/items/{id}/increase', name: 'cart_increase_quantity', methods: ['POST'])]
     public function increase(int $id): Response
     {
-        $this->cartService->add($id);
+        $product = $this->productService->findProductById($id);
+        $currentQuantityInCart = $this->cartService->getQuantity($product);
 
-        return $this->redirectToRoute('app-cart');
+        // Check if the stock is sufficient
+        if ($product->getStock() > $currentQuantityInCart) {
+            $this->cartService->increaseQuantity($id);
+        } else {
+            $this->addFlash('warning', 'Insufficient stock for ' . $product->getName());
+        }
+
+        return $this->redirectToRoute('cart_index');
     }
 
-    #[Route('/cart/decrease/{id}', name: 'cart_decrease', methods: ['POST'])]
+    #[Route('/cart/items/{id}/decrease', name: 'cart_decrease_quantity', methods: ['POST'])]
     public function decrease(int $id): Response
     {
-        $this->cartService->decrease($id); // Implémentez cette méthode dans CartService pour réduire la quantité
+        $this->cartService->decreaseQuantity($id);
 
-        return $this->redirectToRoute('app-cart');
+        return $this->redirectToRoute('cart_index');
     }
 
-
-    public function addToCartButton(Produit $produit): Response
+    public function addToCartButton(Product $product): Response
     {
-
         return $this->render('cart/add_to_cart_button.html.twig', [
-            'produit' => $produit,
-            'maxQuantity' => $produit->getStock() - $this->cartService->getQuantity($produit),
+            'product' => $product,
+            'maxQuantity' => $product->getStock() - $this->cartService->getQuantity($product),
         ]);
     }
 }

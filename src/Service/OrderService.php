@@ -2,55 +2,58 @@
 // src/Service/OrderService.php
 namespace App\Service;
 
-use App\Entity\Commande;
-use App\Entity\LigneCommande;
-use App\Repository\CommandeRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Order;
+use App\Entity\ProductLine;
+use App\Repository\OrderRepository;
 
 class  OrderService
 {
-    private $commandeRepository;
+    private $orderRepository;
     private $cartService;
     private $user;
 
-    public function __construct(CommandeRepository $commandeRepository, CartService $cartService)
+    public function __construct(OrderRepository $orderRepository, CartService $cartService)
     {
-        $this->commandeRepository = $commandeRepository;
+        $this->orderRepository = $orderRepository;
         $this->cartService = $cartService;
     }
 
-    public function createOrder(): Commande
+    public function createOrder(?Order $order): Order
     {
         $cart = $this->cartService->getFullCart();
-        $order = new Commande();
-        $order->setDateCommande(new \DateTime());
-        $order->setDateLivraison(new \DateTime());
-        $order->setStatutCode('pending');
-        $order->setTotalCommande($this->cartService->getTotal());
+
+        if (empty($order)) {
+            $order = new Order();
+        }
+        $order->setCreationDate(new \DateTime());
+        $order->setPickUpDate(new \DateTime());
+        $order->setStatus('pending');
+        $order->setTotalPrice($this->cartService->getTotal());
         //$order->setUserId('1');
 
         // Add each product to the ligneCommandes of the order 
         foreach ($cart as $item) {
-            $product = $item['produit'];
-            $orderLine = new LigneCommande();
-            $orderLine->setProduit($product);
-            $orderLine->setQuantite($item['quantity']);
-            $orderLine->setCommande($order);
-            $order->addLigneCommande($orderLine);
+            $product = $item['product'];
+            $orderLine = new ProductLine();
+            $orderLine->setProduct($product);
+            $orderLine->setQuantity($item['quantity']);
+            $orderLine->setOrder($order);
+            $order->addProductLine($orderLine);
         }
 
-        $this->commandeRepository->save($order, true);
+        $this->orderRepository->save($order, true);
+        $this->cartService->removeCart();
         return $order;
     }
 
-    public function getOrder($orderId): Commande
+    public function getOrder($orderId): Order
     {
-        return $this->commandeRepository->find($orderId);
+        return $this->orderRepository->find($orderId);
     }
 
-    public function updateOrderStatus(Commande $order, string $status): void
+    public function updateOrderStatus(Order $order, string $status): void
     {
-        $order->setStatutCode($status);
-        $this->commandeRepository->save($order, true);
+        $order->setStatus($status);
+        $this->orderRepository->save($order, true);
     }
 }

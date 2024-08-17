@@ -1,0 +1,11 @@
+
+    <div class="flex-item">
+      <a href="{{ path('product_show', { id: product.id }) }}">
+        <img src="{{ asset('images/products/' ~ product.image) }}" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+      </a>
+      <div class="prix-button">
+        <p>{{ product.price }}$</p>
+        {{ render(controller('App\\Controller\\CartController::addToCartButton', { product: product })) }}
+      </div>
+    </div>

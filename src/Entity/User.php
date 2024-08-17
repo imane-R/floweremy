@@ -25,10 +25,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $nom = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $prenom = null;
+    private ?string $lastName = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
@@ -36,10 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
-        $this->commandes = new ArrayCollection();
-        $this->cbs = new ArrayCollection();
-        $this->messages = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -57,26 +55,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Commande>
      */
-    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'user_id')]
-    private Collection $commandes;
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user_id')]
+    private Collection $orders;
 
-    /**
-     * @var Collection<int, CB>
-     */
-    #[ORM\OneToMany(targetEntity: CB::class, mappedBy: 'user')]
-    private Collection $cbs;
-
-    /**
-     * @var Collection<int, Message>
-     */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'user')]
-    private Collection $messages;
 
     /**
      * @var Collection<int, Commentaire>
      */
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'user')]
-    private Collection $commentaires;
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
+    private Collection $comments;
 
     public function getId(): ?int
     {
@@ -95,26 +82,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNom(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->nom;
+        return $this->firstName;
     }
 
-    public function setNom(string $nom): static
+    public function setFirstName(string $firstName): static
     {
-        $this->nom = $nom;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getLastName(): ?string
     {
-        return $this->prenom;
+        return $this->lastName;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setLastName(string $lastName): static
     {
-        $this->prenom = $prenom;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -191,87 +178,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Commande>
      */
-    public function getCommandes(): Collection
+    public function getOrders(): Collection
     {
-        return $this->commandes;
+        return $this->orders;
     }
 
-    public function addCommande(Commande $commande): static
+    public function addOrder(Order $order): static
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setUserId($this);
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): static
+    public function removeOrder(Order $order): static
     {
-        if ($this->commandes->removeElement($commande)) {
+        if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($commande->getUserId() === $this) {
-                $commande->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CB>
-     */
-    public function getCbs(): Collection
-    {
-        return $this->cbs;
-    }
-
-    public function addCb(CB $cb): static
-    {
-        if (!$this->cbs->contains($cb)) {
-            $this->cbs->add($cb);
-            $cb->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCb(CB $cb): static
-    {
-        if ($this->cbs->removeElement($cb)) {
-            // set the owning side to null (unless already changed)
-            if ($cb->getUser() === $this) {
-                $cb->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): static
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): static
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getUser() === $this) {
-                $message->setUser(null);
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 
@@ -281,27 +208,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Commentaire>
      */
-    public function getCommentaires(): Collection
+    public function getComment(): Collection
     {
-        return $this->commentaires;
+        return $this->comments;
     }
 
-    public function addCommentaire(Commentaire $commentaire): static
+    public function addComment(Comment $comment): static
     {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setUser($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): static
+    public function removeComment(Comment $comment): static
     {
-        if ($this->commentaires->removeElement($commentaire)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($commentaire->getUser() === $this) {
-                $commentaire->setUser(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 
