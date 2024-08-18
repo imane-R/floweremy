@@ -61,4 +61,18 @@ class StripeService
     {
         return $this->stripe->products->retrieve($id);
     }
+
+    public function updateProduct(Product $product)
+    {
+        return $this->stripe->products->update(
+            $product->getStripeId(),
+            [
+                'name' => $product->getName(),
+                'default_price_data' => [
+                    'currency' => $_ENV['SITE_CURRENCY'],
+                    'unit_amount_decimal' => $product->getPrice() * 100
+                ],
+            ]
+        );
+    }
 }

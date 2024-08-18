@@ -7,8 +7,13 @@
 {% block content %}
   <h1 class="my-4">Gestion des produits</h1>
 
-  <div class="mb-3">
+  <div class="mb-3 d-flex justify-content-between">
     <a href="{{ path('product_new') }}" class="btn btn-primary">Ajouter un produit</a>
+    
+    <!-- Synchronize Button -->
+    <form method="post" action="{{ path('product_synchronize') }}">
+      <button type="submit" class="btn btn-warning">Synchroniser avec Stripe</button>
+    </form>
   </div>
 
   <table id="table" class="table table-striped">

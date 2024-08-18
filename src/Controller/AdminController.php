@@ -166,6 +166,32 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/products/synchronize', name: 'product_synchronize', methods: ['POST'])]
+    public function synchronizeProducts(): Response
+    {
+        $products = $this->productService->findAllProducts();
+
+        foreach ($products as $product) {
+            if (!$product->getStripeId()) {
+                $stripeProduct = $this->stripeService->createProduct($product);
+                $product->setStripeId($stripeProduct->id);
+                $this->productService->saveProduct($product);
+            } else {
+                try {
+                    $stripeProduct = $this->stripeService->retreiveProduct($product->getStripeId());
+                } catch (\Stripe\Exception\ApiErrorException $e) {
+                    $stripeProduct = $this->stripeService->createProduct($product);
+                    $product->setStripeId($stripeProduct->id);
+                    $this->productService->saveProduct($product);
+                }
+            }
+        }
+
+        $this->addFlash('success', 'Products synchronized with Stripe successfully.');
+
+        return $this->redirectToRoute('product_index');
+    }
+
     #[Route('products/{id}', name: 'product_update', methods: ['POST', 'GET'])]
     public function updateProduct(int $id, Request $request): Response
     {
