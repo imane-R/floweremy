@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Enum\OrderStatus;
 use App\Service\CartService;
 use App\Service\OrderService;
 use App\Service\StripeService;
@@ -29,7 +30,9 @@ class PaymentController extends AbstractController
         $paymentSession = $this->stripeService->getPaymentSession($_GET['session_id']);
 
         $order = $this->orderService->getOrder($paymentSession->client_reference_id);
-        $this->orderService->updateOrderStatus($order, $paymentSession->payment_status);
+        if ($paymentSession->payment_status === 'paid') {
+            $this->orderService->updateOrderStatus($order, OrderStatus::CONFIRMED);
+        }
         return $this->redirectToRoute('order_confirmation', ['id' => $order->getId()]);
     }
 
@@ -40,7 +43,7 @@ class PaymentController extends AbstractController
 
         $order = $this->orderService->getOrder($paymentSession->client_reference_id);
 
-        $this->orderService->updateOrderStatus($order, 'cancelled');
+        $this->orderService->updateOrderStatus($order, OrderStatus::CANCELLED);
 
         $this->cartService->recoverCartFromOrder($order);
 

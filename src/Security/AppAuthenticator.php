@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Service\CartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,13 +21,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-    private $cartService;
 
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, CartService $cartService)
-    {
-        $this->cartService = $cartService;
-    }
+    public function __construct(private UrlGeneratorInterface $urlGenerator) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -51,8 +46,6 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-        // transfer the cart to the user (cart is stored in session to be stored in the database)
-        $this->cartService->transferCartToUser();
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
         throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }
