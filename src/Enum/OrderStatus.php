@@ -19,14 +19,4 @@ enum OrderStatus: string
             default => throw new \InvalidArgumentException("Invalid order status: $status"),
         };
     }
-
-    public function __toString(): string
-    {
-        return match ($this) {
-            self::PENDING => 'pending',
-            self::CANCELLED => 'cancelled',
-            self::CONFIRMED => 'confirmed',
-            self::COMPLETED => 'completed',
-        };
-    }
 }
