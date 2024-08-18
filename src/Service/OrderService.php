@@ -68,7 +68,7 @@ class OrderService
     public function updateOrderStatus(Order $order, OrderStatus $status): void
     {
         if ($order->getStatus() === $status) {
-            throw new \InvalidArgumentException('Order already has status ' . $status->getValue());
+            throw new \InvalidArgumentException('Order already has status ' . $status);
         }
 
         $order->setStatus($status);
