@@ -23,8 +23,9 @@ class ProductService
         $this->productRepository->save($product);
     }
 
-    public function deleteProduct(Product $product): void
+    public function deleteProductById(int $productId): void
     {
+        $product = $this->findProductById($productId);
         $this->productRepository->remove($product);
     }
 

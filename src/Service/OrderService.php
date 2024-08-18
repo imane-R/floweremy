@@ -5,17 +5,19 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Entity\ProductLine;
 use App\Repository\OrderRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class  OrderService
 {
     private $orderRepository;
     private $cartService;
-    private $user;
+    private $security;
 
-    public function __construct(OrderRepository $orderRepository, CartService $cartService)
+    public function __construct(OrderRepository $orderRepository, CartService $cartService, Security $security)
     {
         $this->orderRepository = $orderRepository;
         $this->cartService = $cartService;
+        $this->security = $security;
     }
 
     public function createOrder(?Order $order): Order
@@ -26,10 +28,9 @@ class  OrderService
             $order = new Order();
         }
         $order->setCreationDate(new \DateTime());
-        $order->setPickUpDate(new \DateTime());
         $order->setStatus('pending');
         $order->setTotalPrice($this->cartService->getTotal());
-        //$order->setUserId('1');
+        $order->setUser($this->security->getUser());
 
         // Add each product to the ligneCommandes of the order 
         foreach ($cart as $item) {

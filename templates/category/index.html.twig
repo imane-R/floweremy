@@ -8,7 +8,7 @@
   <h1 class="my-4">Gestion des catégories</h1>
 
   <div class="mb-3">
-    <a href="{{ path('category_new') }}" class="btn btn-success">Ajouter une catégorie</a>
+    <a href="{{ path('category_new') }}" class="btn btn-primary">Ajouter une catégorie</a>
   </div>
 
   <table id="categoryTable" class="table table-striped">
@@ -23,10 +23,8 @@
         <tr>
           <td>{{ category.name }}</td>
           <td class="text-center">
-            <a href="{{ path('category_edit_form', { id: category.id }) }}" class="btn btn-sm btn-primary" title="Modifier"><i class="fas fa-edit"></i></a>
-            <form action="{{ path('category_delete', { id: category.id }) }}" method="post" class="d-inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');">
-              <input type="hidden" name="_method" value="DELETE" />
-              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}" />
+            <a href="{{ path('category_update', { id: category.id }) }}" class="btn btn-sm btn-primary" title="Modifier"><i class="fas fa-edit"></i></a>
+            <form action="{{ path('category_delete', { id: category.id }) }}" class="d-inline-block action-delete">
               <button type="submit" class="btn btn-sm btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
             </form>
           </td>

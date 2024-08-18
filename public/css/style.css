@@ -611,6 +611,12 @@ h1 {
 .btn-primary {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
+}
+
+.open-cookies-modal {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
   height: 50px !important;
   width: 50px !important;
   border-radius: 50% !important;
@@ -741,4 +747,24 @@ label {
 }
 .imgform {
   width: 30% !important;
+}
+
+/* Customize the ClockPicker for your flower theme */
+.clockpicker-popover {
+  background-color: #fef5e7; /* Light floral background */
+  border: 2px solid #e6c3a0; /* Soft beige border */
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.clockpicker-popover .clockpicker-hours,
+.clockpicker-popover .clockpicker-minutes {
+  background-color: #fdf1f9; /* Soft pink background */
+  color: #7d3c98; /* Purple text */
+}
+
+.clockpicker-popover .clockpicker-button {
+  background-color: #a569bd; /* Deep purple for buttons */
+  color: white;
+  border-radius: 5px;
 }

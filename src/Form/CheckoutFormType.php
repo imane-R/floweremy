@@ -16,9 +16,10 @@ class CheckoutFormType extends AbstractType
     {
         $builder
             ->add('pickUpDate', DateTimeType::class, [
-                'widget' => 'single_text', // This will render a combined date and time picker
-                'label' => 'L\'horaire de passage',
-                'attr' => ['class' => 'form-control'],
+                'attr' => [
+                    'class' => 'form-control',
+                    'style' => 'display:none;', // Hide the field
+                ],
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message gift',

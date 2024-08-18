@@ -24,8 +24,9 @@ class CategoryService
         $this->categoryRepository->save($category);
     }
 
-    public function deleteCategory(Category $category): void
+    public function deleteCategoryById(int $categoryId): void
     {
+        $category = $this->getCategoryById($categoryId);
         $this->categoryRepository->remove($category);
     }
 

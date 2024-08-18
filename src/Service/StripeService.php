@@ -16,7 +16,7 @@ class StripeService
         $this->stripe = new StripeClient($_ENV['STRIPE_SECRET_KEY']);
     }
 
-    public function createPaymentSession(Order $order, String $successUrl)
+    public function createPaymentSession(Order $order, String $successUrl, String $cancelUrl)
 
     {
 
@@ -33,6 +33,7 @@ class StripeService
         return
             $this->stripe->checkout->sessions->create([
                 'success_url' => $successUrl . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => $cancelUrl . '?session_id={CHECKOUT_SESSION_ID}',
                 'line_items' => $lineItems,
                 'mode' => 'payment',
                 'client_reference_id' => $order->getId(),

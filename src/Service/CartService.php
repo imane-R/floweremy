@@ -4,12 +4,13 @@
 namespace App\Service;
 
 use App\Entity\Cart;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\CartItem;
 use App\Repository\CartRepository;
 use App\Repository\ProductRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
 {
@@ -312,6 +313,54 @@ class CartService
             $this->cartRepository->remove($cart);
         } else {
             $this->setSessionCart([]);
+        }
+    }
+
+
+    // src/Service/CartService.php
+
+    public function recoverCartFromOrder(Order $order): void
+    {
+        $user = $this->getUser();
+
+        if ($user) {
+            // Recover cart for a logged-in user
+            $cart = $this->getUserCart();
+
+            foreach ($order->getProductLines() as $productLine) {
+                $product = $productLine->getProduct();
+                $quantity = $productLine->getQuantity();
+
+                $cartItem = $cart->getItems()->filter(function (CartItem $item) use ($product) {
+                    return $item->getProduct() === $product;
+                })->first() ?: new CartItem();
+
+                if ($cartItem->getId()) {
+                    $cartItem->setQuantity($cartItem->getQuantity() + $quantity);
+                } else {
+                    $cartItem->setProduct($product);
+                    $cartItem->setQuantity($quantity);
+                    $cart->addItem($cartItem);
+                }
+            }
+
+            $this->cartRepository->save($cart);
+        } else {
+            // Recover session-based cart for a guest user
+            $sessionCart = $this->getSessionCart();
+
+            foreach ($order->getProductLines() as $productLine) {
+                $productId = $productLine->getProduct()->getId();
+                $quantity = $productLine->getQuantity();
+
+                if (isset($sessionCart[$productId])) {
+                    $sessionCart[$productId] += $quantity;
+                } else {
+                    $sessionCart[$productId] = $quantity;
+                }
+            }
+
+            $this->setSessionCart($sessionCart);
         }
     }
 }

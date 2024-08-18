@@ -50,13 +50,14 @@ class CheckoutController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $successLink = $this->generateUrl('payment_confirmation', [], 0);
+            $successLink = $this->generateUrl('payment_confirm', [], 0);
+            $cancelLink = $this->generateUrl('payment_cancel', [], 0);
 
             // Create the order with status 'Pending'
             $order = $this->orderService->createOrder($order);
 
             // Create the payment session with Stripe
-            $paymentSession = $this->stripeService->createPaymentSession($order, $successLink);
+            $paymentSession = $this->stripeService->createPaymentSession($order, $successLink, $cancelLink);
 
 
             // Redirect to the payment session

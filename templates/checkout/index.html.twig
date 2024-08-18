@@ -10,19 +10,27 @@
 
         {{ form_start(form) }}
 
-            <div class="form-group">
-                {{ form_label(form.pickUpDate) }}
-                {{ form_widget(form.pickUpDate) }}  {# Renders both date and time inputs together #}
-            </div>
+        <div class="form-group">
+            <label for="datePicker">Select Date</label>
+            <input type="text" id="datePicker" class="form-control" placeholder="Select a date">
+        </div>
+        
+        <div class="form-group">
+            <label for="timePicker">Select Time</label>
+            <input type="text" id="timePicker" class="form-control" placeholder="Select a time">
+        </div>
 
-            <div class="form-group">
-                {{ form_label(form.message) }}
-                {{ form_widget(form.message) }}
-            </div>
+        {# This hidden field is part of your form and will be filled via JS #}
+        {{ form_widget(form.pickUpDate) }}
 
-            <div class="form-group">
-                {{ form_widget(form.submit) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.message) }}
+            {{ form_widget(form.message) }}
+        </div>
+
+        <div class="form-group mt-4">
+            {{ form_widget(form.submit) }}
+        </div>
 
         {{ form_end(form) }}
 
@@ -34,4 +42,41 @@
         </ul>
         <p><strong>Total: {{ total }}€</strong></p>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Flatpickr for the date picker
+            flatpickr("#datePicker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "F j, Y",
+                theme: "flower-theme",
+            });
+
+            // Initialize ClockPicker for the time picker
+            $('#timePicker').clockpicker({
+                autoclose: true,
+                twelvehour: false,
+                donetext: 'Done',
+                placement: 'bottom',
+                align: 'left'
+            });
+
+            // Combine date and time into the hidden input
+            $('#datePicker, #timePicker').change(function () {
+                let date = $('#datePicker').val();
+                let time = $('#timePicker').val();
+                if (date && time) {
+                    // Combine the date and time into the desired format
+                    let dateTime = `${date}T${time}`; // Example: "2024-08-17T15:30"
+                    $('#{{ form.pickUpDate.vars.id }}').val(dateTime);
+                }
+            });
+        });
+    </script>
 {% endblock %}

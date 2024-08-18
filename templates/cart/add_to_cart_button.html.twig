@@ -1,4 +1,4 @@
 <form action="{{ path('cart_add_item') }}" method="POST" class="add-to-cart-form">
   <input type="hidden" name="productId" value="{{ product.id }}" />
-  <button type="submit" class="add-to-cart" {{ maxQuantity <= 0 ? 'disabled' : '' }}>Add to cart</button>
+  <button type="submit" class=" btn btn-primary" {{ maxQuantity <= 0 ? 'disabled' : '' }}>Ajouter au panier</button>
 </form>

@@ -3,41 +3,33 @@
 namespace App\Repository;
 
 use App\Entity\Mletpc;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Mletpc>
  */
 class MletpcRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $entityManager;
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Mletpc::class);
+        $this->entityManager = $entityManager;
     }
 
-    //    /**
-    //     * @return Mletpc[] Returns an array of Mletpc objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(Mletpc $mletpc): void
+    {
+        $this->entityManager->persist($mletpc);
+        $this->entityManager->flush();
+    }
 
-    //    public function findOneBySomeField($value): ?Mletpc
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function remove(Mletpc $mletpc): void
+    {
+        $this->entityManager->remove($mletpc);
+        $this->entityManager->flush();
+    }
+
+
 }
