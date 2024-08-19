@@ -6,7 +6,9 @@ use App\Entity\Mletpc;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Form\MletpcType;
+use App\Form\OrderFormType;
 use App\Form\ProductFormType;
+use App\Service\OrderService;
 use App\Form\CategoryFormType;
 use App\Service\MletPcService;
 use App\Service\StripeService;
@@ -28,13 +30,15 @@ class AdminController extends AbstractController
     private ProductService $productService;
     private StripeService $stripeService;
     private MletPcService $mletpcService;
+    private OrderService $orderService;
 
-    public function __construct(CategoryService $categoryService, ProductService $productService, StripeService $stripeService, MletPcService $mletpcService)
+    public function __construct(CategoryService $categoryService, ProductService $productService, StripeService $stripeService, MletPcService $mletpcService, OrderService $orderService)
     {
         $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->stripeService = $stripeService;
         $this->mletpcService = $mletpcService;
+        $this->orderService = $orderService;
     }
 
     // gestion of category
@@ -256,6 +260,55 @@ class AdminController extends AbstractController
         return $this->render("mletpc/index.html.twig", [
             'formMletpc' => $form->createView(),
             'mletpc' => $mletpc
+        ]);
+    }
+
+    // oders management
+
+    #[Route('/orders', name: 'order_index', methods: ['GET'])]
+    public function orderindex(): Response
+    {
+        $orders = $this->orderService->getAllOrders();
+
+        return $this->render('order/index.html.twig', [
+            'orders' => $orders,
+        ]);
+    }
+
+    #[Route('/order/{id}', name: 'order_show', methods: ['GET'])]
+    public function show(int $id): Response
+    {
+        $order = $this->orderService->getOrder($id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Order not found');
+        }
+
+        return $this->render('order/show.html.twig', [
+            'order' => $order,
+        ]);
+    }
+
+    #[Route('/order/{id}/update', name: 'update_order', methods: ['POST', 'GET'])]
+    public function updateOrder(int $id, Request $request): Response
+    {
+        $order = $this->orderService->getOrder($id);
+        if (!$order) {
+            throw $this->createNotFoundException('Order not found');
+        }
+
+        $form = $this->createForm(OrderFormType::class, $order);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Mettre à jour l'objet `Order` avec les données du formulaire
+            $this->orderService->updateOrder($order);
+            return $this->redirectToRoute('order_index');
+        }
+
+        return $this->render('order/form.html.twig', [
+            'formOrder' => $form->createView(),
+            'order' => $order,
         ]);
     }
 }

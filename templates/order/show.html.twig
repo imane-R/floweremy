@@ -1,0 +1,76 @@
+{# templates/order/show.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Détails de la commande #{{ order.id }} - Admin
+{% endblock %}
+
+{% block content %}
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <h1 class="mb-4">Détails de la commande #{{ order.id }}</h1>
+
+        <div class="card mb-4">
+          <div class="card-header bg-dark text-white">
+            Informations sur la commande
+          </div>
+          <div class="card-body">
+            <p><strong>Date de commande :</strong> {{ order.creationDate|date('d/m/Y H:i') }}</p>
+            <p><strong>Total :</strong> {{ order.totalPrice|number_format(2, ',', ' ') }} €</p>
+            <p><strong>Status :</strong> 
+              <span class="badge 
+                {% if order.status.name == 'CONFIRMED' %}
+                  bg-success
+                {% elseif order.status.name == 'CANCELLED' %}
+                  bg-danger
+                {% elseif order.status.name == 'PENDING' %}
+                  bg-warning
+                {% else %}
+                  bg-secondary
+                {% endif %}">
+                {{ order.status.name|upper }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <h2 class="mb-4">Produits</h2>
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Produit</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for line in order.productLines %}
+              <tr>
+                <td>{{ line.product.name }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.product.price|number_format(2, ',', ' ') }} €</td>
+                <td>{{ (line.product.price * line.quantity)|number_format(2, ',', ' ') }} €</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            Actions
+          </div>
+          <div class="card-body">
+            <a href="{{ path('update_order', { id: order.id }) }}" class="btn btn-primary w-100 mb-2">
+              Modifier la commande
+            </a>
+            <a href="{{ path('order_index') }}" class="btn btn-primary  w-100 mt-3">Retour à la liste des commandes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

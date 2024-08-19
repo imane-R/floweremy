@@ -1,0 +1,40 @@
+{# templates/order/index.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Liste des commandes - Admin
+{% endblock %}
+
+{% block content %}
+  <h1 class="my-4">Gestion des commandes</h1>
+
+  <table id="table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.creationDate|date('d/m/Y H:i') }}</td>
+          <td>{{ order.totalPrice|number_format(2, ',', ' ') }} €</td>
+          <td>{{ order.status.name|upper }}</td>
+          <td>
+            <a href="{{ path('order_show', { id: order.id }) }}" class="btn btn-sm btn-primary">Voir</a>
+            <a href="{{ path('update_order', { id: order.id }) }}" class="btn btn-sm btn-secondary">Modifier</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="5" class="text-center">Aucune commande trouvée.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

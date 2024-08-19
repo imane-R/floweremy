@@ -97,4 +97,22 @@ class OrderService
         // Save changes to the database
         $this->productRepository->save($product);
     }
+
+    public function getAllOrders(): array
+    {
+        return $this->orderRepository->findAll();
+    }
+
+    public function deleteOrderById(int $id): void
+    {
+        $order = $this->getOrder($id);
+        if ($order) {
+            $this->orderRepository->remove($order, true);
+        }
+    }
+
+    public function updateOrder(Order $order): void
+    {
+        $this->orderRepository->save($order, true);
+    }
 }

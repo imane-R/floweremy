@@ -34,4 +34,9 @@ class OrderRepository extends ServiceEntityRepository
             $this->entityManager->flush();
         }
     }
+
+    public function findAll(): array
+    {
+        return parent::findAll();
+    }
 }

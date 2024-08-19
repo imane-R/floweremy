@@ -5,7 +5,7 @@
         <h3>{{ product.name }}</h3>
       </a>
       <div class="prix-button">
-        <p>{{ product.price }}$</p>
+        <p>{{ product.price }} €</p>
         {{ render(controller('App\\Controller\\CartController::addToCartButton', { product: product })) }}
       </div>
     </div>

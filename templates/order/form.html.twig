@@ -1,0 +1,19 @@
+{# templates/order/form.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Modifier la commande #{{ order.id }} - Admin
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Modifier la commande #{{ order.id }}</h1>
+
+        {{ form_start(formOrder) }}
+            {{ form_widget(formOrder) }}
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        {{ form_end(formOrder) }}
+
+        <a href="{{ path('order_index') }}" class="btn btn-secondary mt-3">Retour à la liste des commandes</a>
+    </div>
+{% endblock %}

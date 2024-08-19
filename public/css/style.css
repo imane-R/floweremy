@@ -23,6 +23,11 @@ a {
 .icon {
   color: var(--primary-color);
 }
+.page_title {
+  color: var(--primary-color);
+  text-align: center;
+  color: var(--primary-color) !important;
+}
 
 /* header style  *************************/
 .navbar {
@@ -177,9 +182,10 @@ a {
 
 .flex-item img {
   width: 100%;
-  height: auto;
+  height: 210px !important;
   padding-bottom: 10px;
   height: 70%;
+  object-fit: cover;
 }
 
 .flex-item h3 {
@@ -493,7 +499,7 @@ h1 {
 }
 
 .cart-item {
-  background-color: var(--primary-color); /* Couleur de fond */
+  background-color: white; /* Couleur de fond */
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -518,12 +524,12 @@ h1 {
 .cart-item-details h3 {
   margin: 0 0 10px 0;
   font-size: 18px;
-  color: white;
+  color: var(--secondary-color);
 }
 
 .cart-item-details p {
   margin: 5px 0;
-  color: white;
+  color: var(--secondary-color);
 }
 
 .cart-item-remove {
@@ -575,7 +581,7 @@ h1 {
 }
 
 .quantity-button {
-  background-color: #ba68c8;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -585,16 +591,26 @@ h1 {
   cursor: pointer;
 }
 
-.quantity-button:hover {
-  background-color: #d892dd;
-}
-
 .quantity-form span {
   font-size: 18px;
   color: white;
   margin: 0 10px;
 }
 
+.cart-item-remove {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+}
 /******** profile page ********/
 .profile {
   text-align: center;
@@ -607,6 +623,12 @@ h1 {
   text-align: center;
 }
 
+.cart-btn {
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+  border: none !important;
+  font-size: 18px;
+}
 /************************************** cockies style  ***********************************************/
 .btn-primary {
   background-color: var(--primary-color) !important;

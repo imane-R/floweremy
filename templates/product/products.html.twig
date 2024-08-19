@@ -1,0 +1,19 @@
+  {% extends 'layout.html.twig' %}
+
+{% block title %}
+  home
+{% endblock %}
+
+{% block content %}
+  <!-- banner section -->
+  <h1 class="line-text page_title">Fleurs</h1>
+  <!-- container for products -->
+  <div class="flex-container">
+    {% for product in products %}
+      <!-- product section -->
+      {{ render(controller('App\\Controller\\ProductController::tile', { product: product })) }}
+      <!-- end of product section -->
+    {% endfor %}
+  </div>
+  <!-- end of product section -->
+{% endblock %}

@@ -5,22 +5,54 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Confirmation de Commande</h1>
+   <div class="container my-5">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h1>Confirmation de Commande</h1>
+        </div>
+        <div class="card-body">
+            <p class="lead">Merci pour votre commande !</p>
+            <p>Votre numéro de commande est <strong>{{ order.id }}</strong>.</p>
+            <p>Votre commande sera prête pour le retrait le <strong>{{ order.pickUpDate|date('d/m/Y') }}</strong> à <strong>{{ order.pickUpDate|date('H:i') }}</strong>.</p>
 
-        <p>Merci pour votre commande ! Votre numéro de commande est <strong>{{ order.id }}</strong>.</p>
-        <p>Votre commande sera prête pour le retrait le <strong>{{ order.pickUpDate|date('d/m/Y') }}</strong> à <strong>{{ order.pickUpDate|date('H:i') }}</strong>.</p>
+            <h2 class="my-4">Détails de la Commande</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.productLines %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if item.product.image %}
+                                            <img src="{{ asset('images/products/' ~ item.product.image) }}" alt="{{ item.product.name }}" class="img-thumbnail mr-2" style="max-width: 100px;">
+                                        {% endif %}
+                                        <span>{{ item.product.name }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.product.price|number_format(2, ',', ' ') }} €</td>
+                                <td>{{ (item.product.price * item.quantity)|number_format(2, ',', ' ') }} €</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-        <h2>Détails de la Commande</h2>
-        <ul>
-            {% for item in order.productLines %}
-                <li>
-                    <strong>{{ item.product.name }}</strong> - Quantité : {{ item.quantity }} - Prix unitaire : {{ item.product.price }}€
-                </li>
-            {% endfor %}
-        </ul>
-        <p><strong>Total de la commande : {{ order.totalPrice }}€</strong></p>
+            <div class="text-right">
+                <p class="h4"><strong>Total de la commande : {{ order.totalPrice|number_format(2, ',', ' ') }} €</strong></p>
+            </div>
 
-        <a href="{{ path('app_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+            <a href="{{ path('app_home') }}" class="btn btn-primary mt-4">Retour à l'accueil</a>
+        </div>
     </div>
+</div>
+
 {% endblock %}

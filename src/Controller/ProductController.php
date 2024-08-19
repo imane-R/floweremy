@@ -48,6 +48,17 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/products', name: 'products', methods: ['GET'])]
+
+    public function findAll(): Response
+    {
+        $products = $this->productService->findAllProducts();
+
+        return $this->render('product/products.html.twig', [
+            'products' => $products
+        ]);
+    }
+
     // This method is used to render a single product tile
     public function tile(Product $product): Response
     {
