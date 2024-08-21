@@ -63,4 +63,9 @@ class ProductService
     {
         return $this->productRepository->findBy([], null, $limit);
     }
+
+    public function getBestSellers(int $limit = 4): array
+    {
+        return $this->productRepository->findBestSellers($limit);
+    }
 }

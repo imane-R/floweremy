@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+  Page non trouvée - 404
+{% endblock %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h1 class="display-1 text-danger">404</h1>
+    <h2 class="display-4">Oups! La page que vous recherchez n'existe pas.</h2>
+    <p class="lead">Il semble que vous ayez suivi un lien cassé ou que l'URL que vous avez saisie soit incorrecte.</p>
+    <img src="{{ asset('images/banner/Rectangle 3.png') }}" alt="404" class="img-fluid" style="max-width: 400px;">
+    <a href="{{ path('app_home') }}" class="btn btn-primary btn-lg mt-4">Retour à l'accueil</a>
+</div>
+{% endblock %}

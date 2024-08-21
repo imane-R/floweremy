@@ -10,10 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function show(UserInterface $user): Response
+    public function index(): Response
     {
+        // Get the currently logged-in user
+        $user = $this->getUser();
+
+        // // Fetch the orders of the logged-in user
+        // $orders = $user->getOrders();
+
         return $this->render('profile/index.html.twig', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 }

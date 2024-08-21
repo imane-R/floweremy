@@ -40,13 +40,13 @@
                     <a class="dropdown-item" href="{{ path('product_index') }}">Gestion Produits</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('app_register_gestionnaire') }}">Ajout Gestionnaire</a>
+                    <a class="dropdown-item" href="{{ path('app_register_admin') }}">Ajout admin</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('app_gestionnaire') }}">Gestion Gestionnaires</a>
+                    <a class="dropdown-item" href="{{ path('admins') }}">Gestion admins</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ path('app_mentionslegales') }}">Gestion Mentions légales | Politiques de confidentialité</a>
+                    <a class="dropdown-item" href="{{ path('legal_and_policy_show') }}">Gestion Mentions légales | Politiques de confidentialité</a>
                   </li>
                 </ul>
               </li>
@@ -104,7 +104,7 @@
           </div>
           <div class="modal-body">
             <p>
-              Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer sur notre site, vous acceptez notre politique d'utilisation des cookies. Pour en savoir plus, consultez notre <a class="politiqued-confi" href="#">Politique de confidentialité</a>.
+              Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer sur notre site, vous acceptez notre politique d'utilisation des cookies. Pour en savoir plus, consultez notre <a class="politiqued-confi" href="{{ path('confidentialPolicy') }}">Politique de confidentialité</a>.
             </p>
           </div>
           <div class="modal-footer">
@@ -123,22 +123,13 @@
         <p>Chez FlowerEmy, nous croyons que les fleurs et les plantes ont le pouvoir de transformer un espace, d'élever l'esprit et de célébrer chaque instant de la vie. Que vous recherchiez un bouquet éclatant pour une occasion spéciale ou une plante d'intérieur pour apporter un peu de verdure à votre quotidien, nous sommes là pour répondre à tous vos besoins floraux.</p>
       </div>
       <div class="footer-section">
-        <h3>Liens</h3>
+        <h3> Politiques de confidentialité et Mentions légales </h3>
         <ul>
           <li>
-            <a href="{{ path('app_home') }}">Accueil</a>
+            <a href="{{ path('confidentialPolicy') }}"> Politiques de confidentialité</a>
           </li>
           <li>
-            <a href="{{ path('contact') }}">Contact</a>
-          </li>
-          <li>
-            <a href="{{ path('app_about') }}">À propos</a>
-          </li>
-          <li>
-            <a href="#">Mentions légales</a>
-          </li>
-          <li>
-            <a href="#">Politiques de confidentialité</a>
+            <a href="{{ path('legal_notice') }}">Mentions légales</a>
           </li>
         </ul>
       </div>

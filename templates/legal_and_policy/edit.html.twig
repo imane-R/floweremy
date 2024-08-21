@@ -1,0 +1,30 @@
+{# templates/legal_and_policy/edit.html.twig #}
+
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+Modifier les Mentions Légales & Politique de Confidentialité
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Modifier les Mentions Légales & Politique de Confidentialité</h1>
+    
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.legalNotice, 'Mentions Légales') }}
+            {{ form_widget(form.legalNotice, {'attr': {'class': 'form-control', 'rows': '10'}}) }}
+            {{ form_errors(form.legalNotice) }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form_label(form.confidentialPolicy, 'Politique de Confidentialité') }}
+            {{ form_widget(form.confidentialPolicy, {'attr': {'class': 'form-control', 'rows': '10'}}) }}
+            {{ form_errors(form.confidentialPolicy) }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{{ path('legal_and_policy_show') }}" class="btn btn-secondary">Annuler</a>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

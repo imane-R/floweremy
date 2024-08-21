@@ -43,7 +43,7 @@ class CartController extends AbstractController
                 $this->cartService->add($productId);
             } else {
                 // If stock is insufficient, add a flash message
-                $this->addFlash('warning', 'Insufficient stock for ' . $product->getName());
+                $this->addFlash('warning', 'Stock insuffisant pour ' . $product->getName());
             }
         }
 
@@ -72,7 +72,7 @@ class CartController extends AbstractController
         if ($product->getStock() > $currentQuantityInCart) {
             $this->cartService->increaseQuantity($id);
         } else {
-            $this->addFlash('warning', 'Insufficient stock for ' . $product->getName());
+            $this->addFlash('warning', 'IStock insuffisant pour ' . $product->getName());
         }
 
         return $this->redirectToRoute('cart_index');

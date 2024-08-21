@@ -37,4 +37,16 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findBestSellers(int $limit = 4): array
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.productLines', 'pl')  // Assuming 'productLines' is the property name for the relation in Product entity
+            ->select('p, COUNT(pl.id) AS HIDDEN salesCount')
+            ->groupBy('p.id')
+            ->orderBy('salesCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

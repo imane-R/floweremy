@@ -1,0 +1,27 @@
+{# templates/legal_and_policy/show.html.twig #}
+
+{% extends 'layout.html.twig' %}
+
+{% block title %}Mentions Légales & Politique de Confidentialité{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Mentions Légales & Politique de Confidentialité</h1>
+    
+    <div class="content-section mb-4">
+        <h2 class="h4">Mentions Légales</h2>
+        <div class="content-box p-3 border rounded bg-light">
+            {{ legalAndPolicy.legalNotice|raw }}
+        </div>
+    </div>
+    
+    <div class="content-section mb-4">
+        <h2 class="h4">Politique de Confidentialité</h2>
+        <div class="content-box p-3 border rounded bg-light">
+            {{ legalAndPolicy.confidentialPolicy|raw }}
+        </div>
+    </div>
+
+    <a href="{{ path('legal_and_policy_edit') }}" class="btn btn-primary">Modifier</a>
+</div>
+{% endblock %}

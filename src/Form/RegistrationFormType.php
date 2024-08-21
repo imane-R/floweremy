@@ -45,18 +45,6 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'label' => 'J\'accepte les termes et conditions',
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter nos termes et conditions.',
-                    ]),
-                ],
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'mapped' => false,
@@ -92,17 +80,16 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Rôles',
-                'choices' => [
-                    'Admin' => 'ROLE_ADMIN',
-                    'Utilisateur' => 'ROLE_USER',
-                    'Gestionnaire' => 'ROLE_GESTIONNAIRE',
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'J\'accepte les termes et conditions',
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez accepter nos termes et conditions.',
+                    ]),
                 ],
-                'multiple' => true,
-                'expanded' => true,
                 'attr' => [
-                    'class' => 'form-check-input', // for checkboxes
+                    'class' => 'form-check-input',
                 ],
             ])
             ->add('captcha', Recaptcha3Type::class, [
@@ -126,6 +113,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'roles' => [], // Default to an empty array of roles
         ]);
     }
 }

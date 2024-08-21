@@ -47,7 +47,7 @@ class ContactController extends AbstractController
 
 
             // Add a flash message or redirect to a thank you page
-            $this->addFlash('success', 'Your message has been sent.');
+            $this->addFlash('success', 'Votre message a été envoyé.');
 
             return $this->redirectToRoute('contact');
         }

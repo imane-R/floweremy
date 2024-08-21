@@ -631,6 +631,7 @@ h1 {
 }
 /************************************** cockies style  ***********************************************/
 .btn-primary {
+  color: white !important;
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
 }

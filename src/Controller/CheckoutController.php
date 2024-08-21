@@ -31,14 +31,14 @@ class CheckoutController extends AbstractController
         // Check if the cart is empty
         $cartItems = $this->cartService->getFullCart();
         if (empty($cartItems)) {
-            $this->addFlash('warning', 'Your cart is empty. Please add items to your cart before proceeding to checkout.');
+            $this->addFlash('warning', 'Votre panier est vide. Veuillez ajouter des articles à votre panier avant de procéder au paiement.');
             return $this->redirectToRoute('cart_index');
         }
 
         // Validate stock availability
         foreach ($cartItems as $item) {
             if ($item['quantity'] > $item['product']->getStock()) {
-                $this->addFlash('warning', sprintf('The product "%s" does not have enough stock. Available quantity: %d.', $item['product']->getName(), $item['product']->getStock()));
+                $this->addFlash('warning', sprintf('Le produit "%s" n\'a pas assez de stock. Quantité disponible : %d.', $item['product']->getName(), $item['product']->getStock()));
                 return $this->redirectToRoute('cart_index');
             }
         }

@@ -47,7 +47,7 @@ class PaymentController extends AbstractController
 
         $this->cartService->recoverCartFromOrder($order);
 
-        $this->addFlash('warning', 'Payment was cancelled.');
+        $this->addFlash('warning', 'Le paiement a été annulé.');
         return $this->redirectToRoute('cart_index');
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Mletpc;
 use App\Entity\Product;
 use App\Entity\Category;
-use App\Form\MletpcType;
 use App\Form\OrderFormType;
 use App\Form\ProductFormType;
 use App\Service\OrderService;
+use App\Entity\LegalAndPolicy;
 use App\Form\CategoryFormType;
-use App\Service\MletPcService;
 use App\Service\StripeService;
 use App\Service\ProductService;
+use App\Form\LegalAndPolicyType;
 use App\Service\CategoryService;
+use App\Service\LegalAndPolicyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,16 +29,16 @@ class AdminController extends AbstractController
     private CategoryService $categoryService;
     private ProductService $productService;
     private StripeService $stripeService;
-    private MletPcService $mletpcService;
     private OrderService $orderService;
+    private LegalAndPolicyService $legalAndPolicyService;
 
-    public function __construct(CategoryService $categoryService, ProductService $productService, StripeService $stripeService, MletPcService $mletpcService, OrderService $orderService)
+    public function __construct(CategoryService $categoryService, ProductService $productService, StripeService $stripeService, OrderService $orderService, LegalAndPolicyService $legalAndPolicyService)
     {
         $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->stripeService = $stripeService;
-        $this->mletpcService = $mletpcService;
         $this->orderService = $orderService;
+        $this->legalAndPolicyService = $legalAndPolicyService;
     }
 
     // gestion of category
@@ -191,7 +191,7 @@ class AdminController extends AbstractController
             }
         }
 
-        $this->addFlash('success', 'Products synchronized with Stripe successfully.');
+        $this->addFlash('success', 'Produits synchronisés avec Stripe avec succès.');
 
         return $this->redirectToRoute('product_index');
     }
@@ -238,28 +238,35 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // gestion de ml et pc
+    // legal and policy management
 
-    #[Route('/mletpc_update/{id}', name: 'mletpc_update', methods: ['GET', 'POST'])]
-    public function mletpcupdate(int $id, Request $request): Response
+    #[Route('/edit', name: 'legal_and_policy_edit')]
+    public function edit(Request $request): Response
     {
-        $mletpc = $this->mletpcService->getMletpcById($id);
-
-        if (!$mletpc) {
-            throw $this->createNotFoundException('Mletpc not found');
+        $legalAndPolicy = $this->legalAndPolicyService->getLegalAndPolicy();
+        if (!$legalAndPolicy) {
+            $legalAndPolicy = new LegalAndPolicy();
         }
 
-        $form = $this->createForm(MletpcType::class, $mletpc);
+        $form = $this->createForm(LegalAndPolicyType::class, $legalAndPolicy);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->mletpcService->updateMletpc($mletpc);
-            return $this->redirectToRoute('mletpc_update');
+            $this->legalAndPolicyService->saveLegalAndPolicy($legalAndPolicy);
+            return $this->redirectToRoute('legal_and_policy_show');
         }
 
-        return $this->render("mletpc/index.html.twig", [
-            'formMletpc' => $form->createView(),
-            'mletpc' => $mletpc
+        return $this->render('legal_and_policy/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/show_legal_and_policy', name: 'legal_and_policy_show')]
+    public function showLegalAndPolicy(): Response
+    {
+        $legalAndPolicy = $this->legalAndPolicyService->getLegalAndPolicy();
+        return $this->render('legal_and_policy/show.html.twig', [
+            'legalAndPolicy' => $legalAndPolicy,
         ]);
     }
 
