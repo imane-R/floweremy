@@ -15,8 +15,8 @@ class AppFixtures extends Fixture
         $user = new User();
         $user->setEmail('test@example.com');
         $user->setPassword('password');
-        $user->setNom('Doe');
-        $user->setPrenom('John');
+        $user->setLastName('Doe');
+        $user->setFirstName('John');
         // Remplissez les autres champs selon votre entité User
 
         $manager->persist($user);

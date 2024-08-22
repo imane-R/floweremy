@@ -22,6 +22,7 @@
         <p>
           <strong>Rôle :</strong> {{ user.roles|join(', ') }}
         </p>
+         <a href="{{ path('profile_change_password') }}" class="btn btn-warning">Change Password</a>
       </div>
       <div class="about-image">
         <img src="{{ asset('images/about/Rectangle 49.png') }}" alt="About us image" />

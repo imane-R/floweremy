@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
@@ -44,5 +45,17 @@ class UserService
         $this->entityManager->flush();
     }
 
-    // Add more methods as needed...
+    public function changePassword(User $user, string $currentPassword, string $newPassword, string $confirmPassword): void
+    {
+        if (!$this->passwordHasher->isPasswordValid($user, $currentPassword)) {
+            throw new AuthenticationException('Current password is incorrect.');
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            throw new \InvalidArgumentException('The new password and confirmation do not match.');
+        }
+
+        $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));
+        $this->entityManager->flush();
+    }
 }
