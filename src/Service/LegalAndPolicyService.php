@@ -39,4 +39,19 @@ class LegalAndPolicyService
 
         return $legalAndPolicy ? $legalAndPolicy->getConfidentialPolicy() : null;
     }
+
+    public function getConditionsOfSale(): ?string
+    {
+        $legalAndPolicy = $this->getLegalAndPolicy();
+
+        return $legalAndPolicy ? $legalAndPolicy->getConditionsOfSale() : null;
+    }
+
+    public function saveLegalNotice(string $legalNotice): void
+    {
+        $legalAndPolicy = $this->getLegalAndPolicy();
+        $legalAndPolicy->setLegalNotice($legalNotice);
+
+        $this->saveLegalAndPolicy($legalAndPolicy);
+    }
 }

@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use App\Repository\LegalAndPolicyRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LegalAndPolicyRepository::class)]
@@ -22,6 +23,9 @@ class LegalAndPolicy
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ConditionsOfSale = null;
 
     public function getId(): ?int
     {
@@ -62,6 +66,18 @@ class LegalAndPolicy
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getConditionsOfSale(): ?string
+    {
+        return $this->ConditionsOfSale;
+    }
+
+    public function setConditionsOfSale(?string $ConditionsOfSale): static
+    {
+        $this->ConditionsOfSale = $ConditionsOfSale;
 
         return $this;
     }

@@ -771,6 +771,10 @@ label {
 .imgform {
   width: 30% !important;
 }
+.checkbox {
+  display: flex;
+  justify-content: space-between;
+}
 
 /* Customize the ClockPicker for your flower theme */
 .clockpicker-popover {

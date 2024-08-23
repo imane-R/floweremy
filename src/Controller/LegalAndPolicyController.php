@@ -37,4 +37,14 @@ class LegalAndPolicyController extends AbstractController
             'confidentialPolicy' => $confidentialPolicy
         ]);
     }
+
+    #[Route('/ConditionsOfSale', name: 'ConditionsOfSale', methods: ['GET'])]
+    public function sale(): Response
+    {
+        $ConditionsOfSale = $this->legalAndPolicyService->getConditionsOfSale();
+
+        return $this->render('legal_and_policy/ConditionsOfSale.html.twig', [
+            'ConditionsOfSale' => $ConditionsOfSale
+        ]);
+    }
 }

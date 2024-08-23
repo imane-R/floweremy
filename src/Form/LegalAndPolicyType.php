@@ -29,6 +29,14 @@ class LegalAndPolicyType extends AbstractType
                     'rows' => 10,
                 ],
                 'required' => false,
+            ])
+            ->add('ConditionsOfSale', TextareaType::class, [
+                'label' => 'Conditions de vente',
+                'attr' => [
+                    'placeholder' => 'Entrez les conditions de vente ici...',
+                    'rows' => 10,
+                ],
+                'required' => false,
             ]);
     }
 
