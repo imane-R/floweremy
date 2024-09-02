@@ -48,11 +48,11 @@ class UserService
     public function changePassword(User $user, string $currentPassword, string $newPassword, string $confirmPassword): void
     {
         if (!$this->passwordHasher->isPasswordValid($user, $currentPassword)) {
-            throw new AuthenticationException('Current password is incorrect.');
+            throw new AuthenticationException('Le mot de passe actuel est incorrect.');
         }
 
         if ($newPassword !== $confirmPassword) {
-            throw new \InvalidArgumentException('The new password and confirmation do not match.');
+            throw new \InvalidArgumentException('Le nouveau mot de passe et la confirmation ne correspondent pas.');
         }
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));

@@ -7,7 +7,6 @@ use App\Entity\ProductLine;
 use App\Entity\Category;
 use PHPUnit\Framework\TestCase;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductTest extends TestCase
 {
